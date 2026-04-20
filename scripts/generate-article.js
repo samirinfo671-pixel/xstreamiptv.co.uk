@@ -32,11 +32,9 @@ Writing Rules:
 - Use H1, H2, H3 headers. Use concise, punchy paragraphs.
 - Include a comprehensive FAQ at the bottom based on 'People Also Ask' data.
 - Include DO-FOLLOW style contextual internal links to other areas like [/blog/best-iptv-subscription-sports] or [/blog/buy-iptv-subscription-trial].
-- Mention our recommended providers naturally: 
-    - 4K IPTV MEMBERSHIP (https://iptvmembership.store/)
-    - GOOD IPTV HUB (https://goodiptvhub.com/)
-    - XSTREAM IPTV UK (https://xstreamiptv.co.uk/)
-- Always include a call-to-action suggesting a trial via WhatsApp: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%20%F0%9F%98%80
+- Mention our trusted partner brands naturally (Xstream IPTV UK, Good IPTV Hub, and 4K MEMBERSHIP) as the authority sources.
+- PRIMARY CTA: Every article MUST end with a strong recommendation to start a trial via WhatsApp. Use this exact URL: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
+- INTERNAL LINKING: When linking to other blog posts, use the specific format [/blog/sample-post] or [/blog/2026-04-20-best-iptv-subscription-sports]. NEVER link to pages that don't exist.
 - Format output EXACTLY in this Markdown structure with Frontmatter:
 ---
 title: "The SEO Optimized Title"
