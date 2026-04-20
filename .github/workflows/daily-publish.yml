@@ -14,13 +14,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22' # Fixed version
           cache: 'npm'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Generate SEO Article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: node scripts/generate-article.js
       - name: Commit and Push new article
         run: |
