@@ -65,6 +65,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     notFound();
   }
 
+  const displayImage = post.image || 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80';
+
   return (
     <main className="max-w-4xl mx-auto px-4 py-12">
       <article className="max-w-3xl mx-auto">
@@ -77,20 +79,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </h1>
         </header>
 
-        {post.image && (
-          <div className="mb-12 relative h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl">
-            {/* Using a standard img with layout handling to avoid Vercel image opt costs/failures if not configured */}
-            <img 
-              src={post.image} 
-              alt={post.altText || post.title} 
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                // If the Unsplash image fails, show a fallback gradient or placeholder
-                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80';
-              }}
-            />
-          </div>
-        )}
+        <div className="mb-12 relative h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl">
+          <img 
+            src={displayImage} 
+            alt={post.altText || post.title} 
+            className="w-full h-full object-cover"
+          />
+        </div>
 
         <div className="prose prose-xl prose-blue dark:prose-invert max-w-none 
           prose-headings:font-black prose-headings:tracking-tight
