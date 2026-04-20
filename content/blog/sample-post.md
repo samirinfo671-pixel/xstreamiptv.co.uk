@@ -2,8 +2,8 @@
 title: "The Ultimate Guide to Choosing the Best IPTV Subscription in 2026"
 description: "Compare the best IPTV subscriptions. Get premium 4K channels, catch-up TV, and buffer-free sports. Read our expert buying guide and start your trial today."
 date: "2026-04-18"
-image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&q=80"
-altText: "A living room with a large smart TV displaying sports"
+image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80"
+altText: "Premium IPTV interface on a 4K TV"
 ---
 
 Welcome to our comprehensive guide on finding the perfect IPTV subscription for your needs.

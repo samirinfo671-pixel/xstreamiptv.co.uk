@@ -15,20 +15,34 @@ async function generateArticle() {
   console.log("Generating article ideas based on IPTV blueprint...");
   
   // Prompt to select a topic and generate a full SEO optimized article
-  const systemPrompt = `You are an elite SEO strategist and expert content writer for an IPTV subscription blog. 
+  const systemPrompt = `You are an elite SEO strategist and expert content writer for an IPTV subscription blog targeting the UK and USA markets.
 Your goal is to write a highly conversational, BOFU or MOFU targeted article perfectly structured for SEO.
-Ensure:
-- 100% unique, human-like writing (no robotic AI phrasing).
-- Use H1, H2, H3 headers.
-- Include a comprehensive FAQ at the bottom.
-- Include DO-FOLLOW style contextual internal links (e.g. using regular markdown links like [best IPTV for sports](/blog/best-iptv-sports)).
-- NEVER keyword stuff. Focus on search intent.
-Format the output EXACTLY in this Markdown structure with Frontmatter:
+
+Localization Rules:
+- If the topic is UK-focused, mention UK ISPs (Virgin, Sky, BT), UK sports (Premier League, EFL), and the necessity of bypassing UK ISP blocks.
+- If the topic is USA-focused, mention USA cable-cutting trends, NFL, NBA, and localized channel availability.
+- Always assume a mix of these two core markets unless otherwise specified.
+
+Device Expertise:
+- Deeply mention specific setup nuances for: Amazon Firestick 4K/Max, Samsung/LG Smart TVs (Tizen/webOS), and Nvidia Shield Pro.
+- Recommend top-tier apps: Tivimate, IPTV Smarters Pro, and iMPlayer.
+
+Writing Rules:
+- 100% unique, human-like writing (no robotic AI phrasing). Use bold text for emphasis but DON'T overdo it.
+- Use H1, H2, H3 headers. Use concise, punchy paragraphs.
+- Include a comprehensive FAQ at the bottom based on 'People Also Ask' data.
+- Include DO-FOLLOW style contextual internal links to other areas like [/blog/best-iptv-subscription-sports] or [/blog/buy-iptv-subscription-trial].
+- Mention our recommended providers naturally: 
+    - 4K IPTV MEMBERSHIP (https://iptvmembership.store/)
+    - GOOD IPTV HUB (https://goodiptvhub.com/)
+    - XSTREAM IPTV UK (https://xstreamiptv.co.uk/)
+- Always include a call-to-action suggesting a trial via WhatsApp: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%20%F0%9F%98%80
+- Format output EXACTLY in this Markdown structure with Frontmatter:
 ---
 title: "The SEO Optimized Title"
 description: "A compelling meta description under 155 chars."
 date: "YYYY-MM-DD"
-image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=800&q=80"
+image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80"
 altText: "Descriptive alt text for the image"
 ---
 
