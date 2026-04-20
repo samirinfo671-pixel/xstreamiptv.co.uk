@@ -1,71 +1,75 @@
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
 
-// Initialize OpenAI. It will automatically use process.env.OPENAI_API_KEY
-const openai = new OpenAI();
+// Initialize Gemini
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+// Using gemini-pro which proved stable for this key
+const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
 async function generateArticle() {
-  if (!process.env.OPENAI_API_KEY) {
-    console.error("No OPENAI_API_KEY found in environment variables.");
+  if (!process.env.GEMINI_API_KEY) {
+    console.error("No GEMINI_API_KEY found.");
     process.exit(1);
   }
 
-  console.log("Generating article ideas based on IPTV blueprint...");
+  // Topic Engine: Rotating categories to ensure unique, long-tail content
+  const topics = [
+    "How to fix buffering on Firestick for IPTV in 2026 (UK & USA)",
+    "Best IPTV apps for Samsung and LG Smart TVs 2026: No Box Needed",
+    "Why you need a VPN for IPTV in 2026: Speed, Security and Privacy",
+    "Top 5 IPTV providers for 4K Sports in the UK: Premier League Guide",
+    "How to install IPTV on Nvidia Shield: The Ultimate 2026 Guide",
+    "IPTV vs Cable in 2026: Which is better for USA cord-cutters?",
+    "Best IPTV Subscription for Movies and VOD: 100k+ Titles Guide",
+    "How to set up Tivimate with your IPTV subscription in 2026",
+    "Legal IPTV vs Unverified: What is the difference in 2026?",
+    "Best IPTV for Apple TV 4K: Top Apps and Setup 2026"
+  ];
+
+  // Pick a random topic to ensure variety
+  const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
+
+  console.log(`Generating article for topic: ${selectedTopic}...`);
   
-  // Prompt to select a topic and generate a full SEO optimized article
-  const systemPrompt = `You are an elite SEO strategist and expert content writer for an IPTV subscription blog targeting the UK and USA markets.
-Your goal is to write a highly conversational, BOFU or MOFU targeted article perfectly structured for SEO.
+  const systemPrompt = `You are an elite SEO strategist and expert content writer.
+Target: UK and USA IPTV market.
+Goal: Write a unique, high-value, long-tail SEO article that targets low-competition keywords.
 
-Localization Rules:
-- If the topic is UK-focused, mention UK ISPs (Virgin, Sky, BT), UK sports (Premier League, EFL), and the necessity of bypassing UK ISP blocks.
-- If the topic is USA-focused, mention USA cable-cutting trends, NFL, NBA, and localized channel availability.
-- Always assume a mix of these two core markets unless otherwise specified.
+Localization & Expertise:
+- Mention UK ISPs (Sky, Virgin) and USA cable trends.
+- Mention Firestick, Nvidia Shield, and Smart TV setup.
+- Focus on "Problem/Solution" content (e.g. how to fix buffering, how to install).
 
-Device Expertise:
-- Deeply mention specific setup nuances for: Amazon Firestick 4K/Max, Samsung/LG Smart TVs (Tizen/webOS), and Nvidia Shield Pro.
-- Recommend top-tier apps: Tivimate, IPTV Smarters Pro, and iMPlayer.
-
-Writing Rules:
-- 100% unique, human-like writing (no robotic AI phrasing). Use bold text for emphasis but DON'T overdo it.
-- Use H1, H2, H3 headers. Use concise, punchy paragraphs.
-- Include a comprehensive FAQ at the bottom based on 'People Also Ask' data.
-- Include DO-FOLLOW style contextual internal links to other areas like [/blog/best-iptv-subscription-sports] or [/blog/buy-iptv-subscription-trial].
-- Mention our trusted partner brands naturally (Xstream IPTV UK, Good IPTV Hub, and 4K MEMBERSHIP) as the authority sources.
-- PRIMARY CTA: Every article MUST end with a strong recommendation to start a trial via WhatsApp. Use this exact URL: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
-- INTERNAL LINKING: When linking to other blog posts, use the specific format [/blog/sample-post] or [/blog/2026-04-20-best-iptv-subscription-sports]. NEVER link to pages that don't exist.
-- Format output EXACTLY in this Markdown structure with Frontmatter:
+Structure:
+- Use H1, H2, H3.
+- Use do-follow style internal links to [/blog/sample-post] or [/blog/2026-04-20-best-iptv-subscription-sports].
+- PRIMARY CTA: End with a link to WhatsApp: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
+- Format output as Markdown with Frontmatter:
 ---
-title: "The SEO Optimized Title"
-description: "A compelling meta description under 155 chars."
+title: "The SEO Optimized Long-Tail Title"
+description: "Compelling meta description."
 date: "YYYY-MM-DD"
 image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80"
-altText: "Descriptive alt text for the image"
+altText: "Descriptive alt text"
 ---
 
 # Your H1 Title
 
-[Rest of the article in markdown...]
+[Rest of content...]
 `;
 
   try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o", // or gpt-4o-mini
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: "Write today's SEO optimized article about: 'Why you should use a VPN with your IPTV subscription in 2026'. Make it comprehensive." }
-      ],
-      temperature: 0.7,
-    });
-
-    const content = response.choices[0].message.content;
+    const prompt = `${systemPrompt}\n\nToday's specific keyword/topic: '${selectedTopic}'. Focus on low-competition long-tail search intent. Make it at least 800 words.`;
+    
+    const result = await model.generateContent(prompt);
+    const content = result.response.text();
     
     if (!content) throw new Error("No content generated.");
 
-    // Extract title from frontmatter to create a slug
     const titleMatch = content.match(/title:\s*"(.*?)"/);
-    if (!titleMatch) throw new Error("Could not parse title from frontmatter.");
+    if (!titleMatch) throw new Error("Could not parse title.");
     
     const title = titleMatch[1];
     const slug = title
@@ -77,19 +81,15 @@ altText: "Descriptive alt text for the image"
     const filename = `${dateStr}-${slug}.md`;
     
     const blogDir = path.join(process.cwd(), 'content', 'blog');
-    
-    // Ensure directory exists
-    if (!fs.existsSync(blogDir)) {
-      fs.mkdirSync(blogDir, { recursive: true });
-    }
+    if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir, { recursive: true });
 
     const filepath = path.join(blogDir, filename);
     fs.writeFileSync(filepath, content.trim());
     
-    console.log(`Successfully created new article: ${filepath}`);
+    console.log(`Success: Generated unique content for ${selectedTopic}`);
 
   } catch (error) {
-    console.error("Error generating article:", error);
+    console.error("Gemini Error:", error);
     process.exit(1);
   }
 }
