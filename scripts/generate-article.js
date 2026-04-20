@@ -53,7 +53,7 @@ altText: "Descriptive alt text for the image"
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4-turbo", // or gpt-4o
+      model: "gpt-4o", // or gpt-4o-mini
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: "Write today's SEO optimized article about: 'Why you should use a VPN with your IPTV subscription in 2026'. Make it comprehensive." }
