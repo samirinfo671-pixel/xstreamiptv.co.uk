@@ -20,7 +20,7 @@ jobs:
         run: npm install openai dotenv
       - name: Generate SEO Article
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: node scripts/generate-article.js
       - name: Commit and Push new article
@@ -28,5 +28,5 @@ jobs:
           git config --global user.name "AI Blog Bot"
           git config --global user.email "bot@automatedblog.com"
           git add content/blog/*.md
-          git diff --staged --quiet || git commit -m "docs(blog): automated daily SEO article publish via GPT"
+          git diff --staged --quiet || git commit -m "docs(blog): automated daily SEO article publish via OpenRouter"
           git push origin main
