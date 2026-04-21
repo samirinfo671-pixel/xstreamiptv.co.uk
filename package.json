@@ -10,11 +10,11 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/typography": "^0.5.19",
     "dotenv": "^17.4.2",
     "gray-matter": "^4.0.3",
     "next": "^15.5.15",
+    "openai": "^6.34.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-markdown": "^10.1.0",
