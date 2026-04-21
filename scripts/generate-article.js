@@ -5,14 +5,17 @@ import 'dotenv/config';
 
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
-// Standard model name
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function generateArticle() {
   if (!process.env.GEMINI_API_KEY) {
     console.error("No GEMINI_API_KEY found.");
     process.exit(1);
   }
+
+  // Dual-Model Fallback for maximum reliability
+  const modelsToTry = ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"];
+  let content = "";
+  let usedModel = "";
 
   const topics = [
     "How to fix buffering on Firestick for IPTV in 2026 (UK & USA)",
@@ -23,27 +26,42 @@ async function generateArticle() {
   ];
 
   const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
-  console.log(`Generating article for: ${selectedTopic} using Gemini...`);
   
-  const systemPrompt = `You are an elite SEO expert for an IPTV blog. Write a conversion-focused, long-tail article (800+ words) targeting UK/USA.
-- Mention UK ISPs (Sky, Virgin) and Firestick/Nvidia Shield.
-- INTERNAL LINKING: Use [/blog/sample-post] or [/blog/2026-04-20-best-iptv-subscription-sports].
-- PRIMARY CTA: Use https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
-- Format as Markdown with Frontmatter.
+  const systemPrompt = `You are an elite SEO expert for an IPTV blog. Write a premium 800+ word article in Markdown with Frontmatter.
+Target: UK/USA markets. 
+CTA: Message on WhatsApp at https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
+Format with:
 ---
-title: "The SEO Optimized Title"
-description: "A compelling meta description under 155 chars."
+title: "Article Title"
+description: "Meta description"
 date: "YYYY-MM-DD"
 image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80"
-altText: "Descriptive alt text for the image"
+altText: "Alt description"
 ---
-`;
+# H1 Title
+...content...`;
+
+  for (const modelName of modelsToTry) {
+    try {
+      console.log(`Searching for model: ${modelName}...`);
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(`${systemPrompt}\n\nToday's Topic: ${selectedTopic}`);
+      content = result.response.text();
+      if (content) {
+        usedModel = modelName;
+        break;
+      }
+    } catch (err) {
+      console.warn(`Model ${modelName} not available for this key. Trying next...`);
+    }
+  }
+
+  if (!content) {
+    console.error("CRITICAL: Your Gemini key is not working with any standard models. Please check AI Studio.");
+    process.exit(1);
+  }
 
   try {
-    const prompt = `${systemPrompt}\n\nWrite today's SEO article about: ${selectedTopic}`;
-    const result = await model.generateContent(prompt);
-    const content = result.response.text();
-
     const titleMatch = content.match(/title:\s*"(.*?)"/);
     const title = titleMatch ? titleMatch[1] : "New IPTV Guide 2026";
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
@@ -53,9 +71,9 @@ altText: "Descriptive alt text for the image"
     if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir, { recursive: true });
     fs.writeFileSync(path.join(blogDir, filename), content.trim());
     
-    console.log(`Success: Generated article ${filename}`);
+    console.log(`SUCCESS: Article generated via ${usedModel} -> ${filename}`);
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("File save error:", error.message);
     process.exit(1);
   }
 }
