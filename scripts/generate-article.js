@@ -3,14 +3,19 @@ import fs from 'fs';
 import path from 'path';
 import 'dotenv/config';
 
-// Primary Model: gpt-4o-mini (Extremely cheap and stable)
+// Initialize OpenAI client for OpenRouter
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+  defaultHeaders: {
+    "HTTP-Referer": "https://xstreamiptv.co.uk", // Required for OpenRouter
+    "X-Title": "IPTV Blog Automation", // Required for OpenRouter
+  }
 });
 
 async function generateArticle() {
-  if (!process.env.OPENAI_API_KEY) {
-    console.error("CRITICAL: No OPENAI_API_KEY found.");
+  if (!process.env.OPENROUTER_API_KEY) {
+    console.error("CRITICAL: No OPENROUTER_API_KEY found.");
     process.exit(1);
   }
 
@@ -23,7 +28,7 @@ async function generateArticle() {
   ];
 
   const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
-  console.log(`Generating unique content for: ${selectedTopic}`);
+  console.log(`Generating unique content for: ${selectedTopic} via OpenRouter...`);
   
   const systemPrompt = `You are an elite SEO strategist. Write a premium 800+ word IPTV guide in Markdown with Frontmatter.
 Target: UK/USA. Mention Firestick and Premium setups.
@@ -41,7 +46,7 @@ altText: "Alt Text"
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "google/gemini-2.0-flash-001", // Using Gemini through OpenRouter for stability
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: `Write a high-traffic article about: ${selectedTopic}` }
@@ -58,13 +63,9 @@ altText: "Alt Text"
     if (!fs.existsSync(blogDir)) fs.mkdirSync(blogDir, { recursive: true });
     fs.writeFileSync(path.join(blogDir, filename), content.trim());
     
-    console.log(`SUCCESS: Created ${filename}`);
+    console.log(`SUCCESS: Created ${filename} via OpenRouter`);
   } catch (error) {
-    if (error.status === 429) {
-      console.error("ERROR: OpenAI Quota Exceeded. Please add credit to your OpenAI account.");
-    } else {
-      console.error("ERROR:", error.message);
-    }
+    console.error("ERROR:", error.message);
     process.exit(1);
   }
 }
