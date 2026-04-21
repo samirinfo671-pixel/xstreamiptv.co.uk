@@ -14,14 +14,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Fixed version
+          node-version: '22'
           cache: 'npm'
       - name: Install dependencies
-        run: npm install
+        run: npm install @google/generative-ai dotenv
       - name: Generate SEO Article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: node scripts/generate-article.js
       - name: Commit and Push new article
         run: |
