@@ -17,15 +17,16 @@ jobs:
           node-version: '22'
           cache: 'npm'
       - name: Install dependencies
-        run: npm install @google/generative-ai dotenv
+        run: npm install openai dotenv
       - name: Generate SEO Article
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         run: node scripts/generate-article.js
       - name: Commit and Push new article
         run: |
           git config --global user.name "AI Blog Bot"
           git config --global user.email "bot@automatedblog.com"
           git add content/blog/*.md
-          git diff --staged --quiet || git commit -m "docs(blog): automated daily SEO article publish via Gemini"
+          git diff --staged --quiet || git commit -m "docs(blog): automated daily SEO article publish via GPT"
           git push origin main
