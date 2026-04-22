@@ -9,9 +9,9 @@ export default function Home() {
       {/* Dynamic Background Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-blue-50/50 rounded-full blur-[120px] -z-10" />
       
-      <div className="max-w-6xl mx-auto px-6 pt-24 pb-32">
-        <header className="mb-24 flex flex-col items-center text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-black uppercase tracking-widest mb-8 animate-fade-in">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-20 sm:pb-32">
+        <header className="mb-16 sm:mb-24 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] sm:text-xs font-black uppercase tracking-widest mb-6 sm:mb-8 animate-fade-in text-center">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
@@ -19,8 +19,8 @@ export default function Home() {
             #1 Rated IPTV Intelligence 2026
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-black tracking-tightest leading-[0.9] mb-10 text-slate-900 drop-shadow-sm">
-            Experience TV <br/> Without <span className="text-blue-600">Limits.</span>
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[1.1] sm:leading-[0.9] mb-8 sm:mb-10 text-slate-900 drop-shadow-sm px-2">
+            Experience TV <br className="hidden sm:block"/> Without <span className="text-blue-600">Limits.</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-medium leading-relaxed mb-12">

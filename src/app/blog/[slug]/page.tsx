@@ -72,23 +72,23 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const processedContent = contentProcessing(post.content);
 
   return (
-    <main className="max-w-6xl mx-auto px-6 py-20 animate-in fade-in duration-700">
+    <main className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 animate-in fade-in duration-700">
       <article className="max-w-4xl mx-auto">
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="px-5 py-2 rounded-full bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-blue-100">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-16">
+          <div className="px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] mb-6 sm:mb-8 border border-blue-100">
              Official Editorial Guide
           </div>
-          <h1 className="text-5xl sm:text-7xl font-black tracking-tightest text-slate-900 mb-10 leading-[1.05]">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tighter text-slate-900 mb-6 sm:mb-10 leading-[1.1] sm:leading-[1.05]">
             {post.title}
           </h1>
-          <div className="flex items-center gap-4 text-sm font-bold text-slate-400">
+          <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm font-bold text-slate-400">
              <span>By XSTREAM Editor</span>
              <span className="w-1.5 h-1.5 bg-slate-200 rounded-full" />
              <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
           </div>
         </div>
 
-        <div className="mb-20 relative aspect-[21/9] w-full rounded-[3.5rem] overflow-hidden shadow-2xl group ring-1 ring-slate-100">
+        <div className="mb-12 sm:mb-20 relative aspect-video sm:aspect-[21/9] w-full rounded-2xl sm:rounded-[3.5rem] overflow-hidden shadow-2xl group ring-1 ring-slate-100">
           <img 
             src={post.image || 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80'} 
             alt={post.altText || post.title} 
@@ -97,11 +97,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
         </div>
 
-        <div className="prose prose-2xl prose-slate max-w-none 
+        <div className="prose prose-lg sm:prose-xl lg:prose-2xl prose-slate max-w-none 
           prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-900
           prose-p:text-slate-600 prose-p:leading-relaxed prose-p:font-medium
           prose-a:text-blue-600 prose-a:font-black prose-a:no-underline hover:prose-a:underline
-          prose-img:rounded-[2.5rem] prose-img:shadow-2xl prose-blockquote:border-l-blue-600 prose-blockquote:bg-slate-50 prose-blockquote:p-8 prose-blockquote:rounded-3xl prose-blockquote:not-italic prose-blockquote:text-xl">
+          prose-img:rounded-3xl sm:prose-img:rounded-[2.5rem] prose-img:shadow-2xl 
+          prose-blockquote:border-l-blue-600 prose-blockquote:bg-slate-50 prose-blockquote:p-6 sm:prose-blockquote:p-8 
+          prose-blockquote:rounded-2xl sm:prose-blockquote:rounded-3xl prose-blockquote:not-italic prose-blockquote:text-lg sm:prose-blockquote:text-xl">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
             {processedContent}
           </ReactMarkdown>
