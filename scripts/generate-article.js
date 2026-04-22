@@ -30,6 +30,17 @@ async function generateArticle() {
   const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
   console.log(`Generating unique content for: ${selectedTopic} via OpenRouter...`);
   
+  // Diverse pool of Luxury IPTV/Tech images
+  const imagePool = [
+    "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80", // 4K TV
+    "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80", // High End PC/Setup
+    "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80", // Gaming/Streaming
+    "https://images.unsplash.com/photo-1601944115164-28b27eaafed0?auto=format&fit=crop&w=1200&q=80", // Remote/Smart TV
+    "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=1200&q=80", // Cinematic Living Room
+    "https://images.unsplash.com/photo-1461151304267-38535e770f71?auto=format&fit=crop&w=1200&q=80"  // Tech/Abstract
+  ];
+  const selectedImage = imagePool[Math.floor(Math.random() * imagePool.length)];
+
   const systemPrompt = `You are an elite SEO strategist. Write a premium 800+ word IPTV guide in Markdown with Frontmatter.
 Target: UK/USA. Mention Firestick and Premium setups.
 CTA: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
@@ -38,8 +49,8 @@ Format with:
 title: "Article Title"
 description: "SEO Description"
 date: "YYYY-MM-DD"
-image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1200&q=80"
-altText: "Alt Text"
+image: "${selectedImage}"
+altText: "SEO optimized alt text"
 ---
 # H1 Title
 ...content...`;
