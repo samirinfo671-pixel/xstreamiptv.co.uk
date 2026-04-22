@@ -41,16 +41,21 @@ async function generateArticle() {
   ];
   const selectedImage = imagePool[Math.floor(Math.random() * imagePool.length)];
 
-  const systemPrompt = `You are an elite SEO strategist. Write a premium 800+ word IPTV guide in Markdown with Frontmatter.
-Target: UK/USA. Mention Firestick and Premium setups.
-CTA: https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80
-Format with:
+  const systemPrompt = `You are an elite SEO strategist specializing in the UK/USA IPTV market. 
+Write a premium, 1000-word "Ultimate 2026 Guide" in Markdown with Frontmatter.
+Focus on high-speed 4K streaming, buffer-free sports, and Firestick/Shield/Smart TV setups.
+ALL DATES AND TITLES MUST BE FOR THE YEAR 2026.
+
+CTA (MUST INCLUDE AT THE END): 
+[👉 CLICK HERE TO GET YOUR FREE IPTV TRIAL ON WHATSAPP 👈](https://api.whatsapp.com/send?phone=447871743874&text=I%20WANT%20MY%20TRIAL%20BEFORE%20PURCHASE%F0%9F%98%80)
+
+Format:
 ---
-title: "Article Title"
-description: "SEO Description"
-date: "YYYY-MM-DD"
+title: "Article Title (Must include 2026)"
+description: "SEO Meta Description"
+date: "${new Date().toISOString().split('T')[0]}"
 image: "${selectedImage}"
-altText: "SEO optimized alt text"
+altText: "SEO alt text"
 ---
 # H1 Title
 ...content...`;
